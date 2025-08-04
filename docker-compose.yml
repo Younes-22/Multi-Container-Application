@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  flask:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7.2.4
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
