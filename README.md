@@ -30,16 +30,11 @@ Access the app at: http://localhost:5001
 
 Visit the /count endpoint to increment and display the visit count
 
-### Scaling 
+###⚖️ Scaling the Application
+This application is configured to be scalable. You can run multiple instances of the Flask application and use Nginx to distribute incoming traffic among them.
+
+The expose directive in the docker-compose.yml file makes the Flask service's port 5001 available to other services within the Docker network, but not directly to your host machine. The Nginx service, acting as a reverse proxy, provides a single point of access by listening on port 5001 and forwarding requests to the available Flask instances.
+
+To scale the Flask service to three instances, you can use the following command:
+
 docker-compose up --scale flask=3
-Change ports to expose as 3 instances can't run on one port
-
-the expose directive makes the flask app port 5001 available to other services in the docker network but dosen't bind it to the host network
-
-whilst the application can scale internally, it's not directly accessible from the host because we removed the host port binding
-
-now we need to use a load balancer and reverse proxy that can distribute incoming traffic to the multiple instances of my flask app
-
-the reason we use a reverse proxy is because we have multiple instances and we can't bind to a port on each instance. so instead we bind to a port on a reverse proxy then becomes a single point of accessing our application. the reverse proxt ill use is nginx
-
-need to understand what nginx service in docker-compose and nignx.conf do
